@@ -21,10 +21,13 @@ import UserRouter from "./routes/user.routes.js";
 import ProductRouter from "./routes/product.routes.js"
 import CategoryRouter from "./routes/Category.routes.js"
 import BestDealsRouter from "./routes/BestDeals.routes.js"
+import FrontPageRouter from "./routes/FrontPage.routes.js"
 
 // routes declerations 
 app.use("/api/v1/users" , UserRouter) ;
 app.use("/api/v1/admin" , ProductRouter) ;
 app.use("/api/v1/admin" , CategoryRouter) ;
 app.use("/api/v1/admin" , BestDealsRouter) ;
+app.use("/api/v1/admin" , FrontPageRouter) ;
+
 export { app } ;

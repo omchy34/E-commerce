@@ -103,6 +103,18 @@ const AllUsers = async (req, res) => {
     }
 }
 
-export { Registration, Login, userData, AllUsers };
+const DeleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const DeleteUser = await User.findByIdAndDelete(id);
+        res.status(200).json({ message: "user deleted successfully" , data:DeleteUser})
+
+    } catch (error) {
+        res.status(500).json({ message: "BACKEND ERROR", error })
+    }
+}
+
+export { Registration, Login, userData, AllUsers, DeleteUser };
 
 

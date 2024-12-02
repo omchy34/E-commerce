@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import Dashboard from "./components/dashboard/DashBoard";
+import Dashboard from "./components/dashboard/Dashboard";
 import Products from "./components/Products/Products";
 import Layout from "./Layout/Layout";
 import Analytics from "./components/Analytics/Analytics";
@@ -10,7 +10,7 @@ import AddProduct from "./components/AddProduct/AddProduct"
 
 import Category from "./components/category/Category";
 import BestDeals from "./components/Bestdeals/Bestdeals";
-import Order from "./components/orders/Order";
+import Order from "./components/Orders/Order";
 import OrderDetails from "./components/OrderDetails/OrderDetails";
 import FrontPage from "./components/FrontPage/FrontPage";
 import CustomerPage from "./components/customerPage/CustomerPage";

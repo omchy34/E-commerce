@@ -9,6 +9,7 @@ const AddProduct = () => {
     ProductName: '',
     Price: '',
     Category: '',
+    SpecialCategory: '',
     BestDeals: '',
     Stock: 'In Stock',
     Brand: '',
@@ -17,6 +18,20 @@ const AddProduct = () => {
     images: [],
   });
   const [aboutItem, setAboutItem] = useState('');
+
+  const [specialCategory, setSpecialCategory] = useState([]);
+
+  useEffect(() => {
+    async function FetchSep() {
+      const res = await axios.get("/api/v1/admin/GetAllSepicalCategory");
+      console.log(res);
+      if (res) {
+        setSpecialCategory(res.data.allSepicalCategory)
+      }
+    }
+
+    FetchSep()
+  }, [])
 
   useEffect(() => {
     async function fetchCategories() {
@@ -63,7 +78,7 @@ const AddProduct = () => {
         ...prevData,
         About: [...prevData.About, aboutItem.trim()],
       }));
-      setAboutItem(''); 
+      setAboutItem('');
     }
   };
 
@@ -76,13 +91,13 @@ const AddProduct = () => {
     formData.append('Price', productData.Price);
     formData.append('Category', productData.Category);
     formData.append('BestDeals', productData.BestDeals);
+    formData.append('SepicalCategory', productData.SpecialCategory)
     formData.append('Stock', productData.Stock);
     formData.append('Brand', productData.Brand);
     formData.append('Description', productData.Description);
-    
-    // Append the About items as a stringified array
+
     formData.append('About', JSON.stringify(productData.About));
-    
+
     productData.images.forEach((image) => {
       formData.append('images', image);
     });
@@ -96,7 +111,7 @@ const AddProduct = () => {
         },
       });
       console.log('Product added successfully:', res.data);
-      // Reset form after successful submission if needed
+
       setProductData({
         ProductName: '',
         Price: '',
@@ -133,6 +148,27 @@ const AddProduct = () => {
               required
             />
           </div>
+          {/* Special Category */}
+          <div className="flex-1 min-w-[300px] mb-4">
+            <label className="block text-gray-700 font-semibold">Special Category</label>
+
+
+            <select
+              name="SpecialCategory"
+              value={productData.SpecialCategory}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-purple-600 transition duration-200"
+            >
+              <option value="">Select Special Category</option>
+              {
+                specialCategory.map((i) => {
+                 return <option key={i._id} value={i.name}>{i.name}</option>
+                })
+              }
+
+            </select>
+          </div>
+
 
           {/* Category */}
           <div className="flex-1 min-w-[300px] mb-4">
@@ -228,7 +264,7 @@ const AddProduct = () => {
             />
           </div>
 
-          {/* About (Add items to the list) */}
+
           <div className="flex-1 min-w-[300px] mb-4">
             <label className="block text-gray-700 font-semibold">About the Product</label>
             <div className="flex gap-2">
@@ -286,9 +322,8 @@ const AddProduct = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full bg-purple-600 text-white font-semibold rounded-lg py-2 transition duration-200 ${
-                isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700'
-              }`}
+              className={`w-full bg-purple-600 text-white font-semibold rounded-lg py-2 transition duration-200 ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700'
+                }`}
             >
               {isLoading ? 'Adding Product...' : 'Add Product'}
             </button>

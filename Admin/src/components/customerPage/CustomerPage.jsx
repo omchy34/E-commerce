@@ -16,10 +16,15 @@ const CustomerPage = () => {
   }, []);
 
   // Function to handle customer deletion
-  // const handleDeleteCustomer = (id) => {
-  //   // const updatedCustomers = customers.filter((customer) => customer.id !== id);
-  //   setCustomers(updatedCustomers);
-  // };
+  const handleDeleteCustomer = async(id) => {
+    const res = await axios.delete(`/api/v1/users/DeleteUser/${id}`)
+    console.log(res);
+    if(res.data){
+
+      const updatedCustomers = customers.filter((customer) => customer._id !== id);
+      setCustomers(updatedCustomers);
+    }
+  };
 
   // Function to handle view details (you can navigate to a detailed view page here)
   const handleViewCustomer = (customer) => {

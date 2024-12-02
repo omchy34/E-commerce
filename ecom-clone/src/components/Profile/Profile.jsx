@@ -1,8 +1,26 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { FaUser, FaBoxOpen, FaHeart, FaMapMarkerAlt, FaCog, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from "axios"
 
 const Profile = () => {
+  const [userName, setuserName] = useState("")
+  const [email, setemail] = useState("")
+
+  useEffect(() => {
+    async function userData() {
+      const res = await axios.get("/api/v1/users/userData", {
+        withCredentials: true,
+      });
+
+      console.log(res);
+      setuserName(res.data.userData.FullName);
+      setemail(res.data.userData.Email)
+    }
+
+    userData();
+  }, []);
   return (
     <div className="bg-gray-100 min-h-screen py-8 pt-24">
       <div className="container mx-auto px-4 lg:px-8">
@@ -12,12 +30,12 @@ const Profile = () => {
           <div className="flex items-center space-x-4">
             {/* User Avatar */}
             <div className="w-20 h-20 rounded-full bg-gray-300 flex justify-center items-center">
-              <FaUser size={50} className="text-gray-500" />
+              <img src="https://static.vecteezy.com/system/resources/thumbnails/048/216/761/small/modern-male-avatar-with-black-hair-and-hoodie-illustration-free-png.png" alt="" />
             </div>
             {/* User Info */}
             <div>
-              <h2 className="text-2xl font-semibold">John Doe</h2>
-              <p className="text-gray-600">john@example.com</p>
+              <h2 className="text-2xl font-semibold">{userName}</h2>
+              <p className="text-gray-600">{email}</p>
             </div>
           </div>
           <Link to="/EditProfile" className="mt-4 md:mt-0 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
@@ -27,7 +45,7 @@ const Profile = () => {
 
         {/* Orders, Wishlist, Cart, Address, Settings */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          
+
           {/* Orders Section */}
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
             <FaBoxOpen size={40} className="text-blue-500 mb-4" />

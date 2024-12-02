@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUserEdit } from 'react-icons/fa';
+import axios from 'axios'
 
 const EditProfile = () => {
   // State to handle form inputs
   const [formData, setFormData] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '123-456-7890',
-    address: '123 Main St, City, Country',
+    FullName:'',
+    Phone:'',
+    Email:'',
   });
+
+  useEffect(() => {
+    async function userData() {
+      const res = await axios.get("/api/v1/users/userData", {
+        withCredentials: true,
+      });
+
+      console.log(res);
+      setFormData(res.data.userData)
+    }
+
+    userData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,50 +46,50 @@ const EditProfile = () => {
         {/* Edit Profile Form */}
         <div className="bg-white shadow-md rounded-lg p-6">
           <form onSubmit={handleSubmit}>
-            {/* Name Field */}
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="name">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
-              />
-            </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2" htmlFor="FullName">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      id="FullName"
+                      name="FullName"
+                      value={formData.FullName}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
+                    />
+                  </div>
 
-            {/* Email Field */}
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
-              />
-            </div>
+                  {/* Email Field */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2" htmlFor="Email">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="Email"
+                      name="Email"
+                      value={formData.Email}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
+                    />
+                  </div>
 
-            {/* Phone Number Field */}
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="phone">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
-              />
-            </div>
+                  {/* Phone Number Field */}
+                  <div className="mb-4">
+                    <label className="block text-gray-700 mb-2" htmlFor="phone">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="Phone"
+                      value={formData.Phone}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
+                    />
+                  </div>
+                
 
             {/* Submit Button */}
             <button

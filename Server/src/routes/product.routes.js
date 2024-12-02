@@ -12,7 +12,7 @@ import { Auth } from "../middleware/user.middleware.js";
 
 const router = express.Router();
 
-router.post("/add-product", upload, AddProduct);
+router.post("/add-product", upload.array('images' , 10) , AddProduct);
 router.delete("/delete-product/:id", deleteProduct);
 router.get("/FetchProduct", FetchAllProduct);
 router.get("/ProductDetails/:id", ProductDetails);

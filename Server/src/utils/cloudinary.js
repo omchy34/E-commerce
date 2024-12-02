@@ -8,19 +8,21 @@ cloudinary.config({
 
 // Function to upload multiple images (buffers)
 const uploadImages = (fileBuffers) => {
-  const uploadPromises = fileBuffers.map((buffer) => {
+  const buffers = Array.isArray(fileBuffers) ? fileBuffers : [fileBuffers];
+
+  const uploadPromises = buffers.map((buffer, index) => {
     return new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         { resource_type: 'auto' },
         (error, result) => {
           if (error) {
-            reject(error);
+            reject(new Error(`Error uploading file ${index + 1}: ${error.message}`));
           } else {
             resolve(result);
           }
         }
       );
-      
+
       // Stream the buffer into the Cloudinary upload stream
       stream.end(buffer);
     });
@@ -28,6 +30,7 @@ const uploadImages = (fileBuffers) => {
 
   return Promise.all(uploadPromises);
 };
+
 
 // Function to delete an image
 const deleteImage = (publicId) => {
