@@ -1,51 +1,67 @@
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
+import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
 
 const Banner = () => {
-  // Slick slider settings with autoplay
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+
+  // Slider settings
   const settings = {
-    dots: true,  // Show dots below the slides
-    infinite: true,  // Infinite loop sliding
-    speed: 500,  // Slide transition speed in milliseconds
-    slidesToShow: 1,  // Number of slides to show at a time
-    slidesToScroll: 1,  // Number of slides to scroll at once
-    autoplay: true,  // Enable autoplay
-    autoplaySpeed: 3000,  // Auto-slide every 3 seconds
-    arrows: false,  // Disable navigation arrows
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
   };
 
-  // Banner content with temporary images
-  const banners = [
-    {
-      title: 'Sale is Live!',
-      description: 'The Big Billion Days',
-      img: 'https://via.placeholder.com/1200x400?text=Big+Sale', // Placeholder image
-    },
-    {
-      title: 'Mega Deals!',
-      description: 'Up to 70% Off on Electronics',
-      img: 'https://via.placeholder.com/1200x400?text=Electronics+Discount', // Placeholder image
-    },
-    {
-      title: 'Fashion Fiesta!',
-      description: 'Flat 50% Off on Apparel',
-      img: 'https://via.placeholder.com/1200x400?text=Fashion+Sale', // Placeholder image
-    },
-  ];
+  useEffect(() => {
+    async function fetchBanners() {
+      try {
+        const res = await axios.get("/api/v1/admin/GetAllBanner");
+        if (res.data && res.data.allBanners) {
+          setBanners(res.data.allBanners);
+         
+          
+        } else {
+          throw new Error("Unexpected response structure");
+        }
+      } catch (err) {
+        console.error("Error fetching banners:", err);
+        setError("Failed to load banners.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchBanners();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-10">Loading banners...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="w-full overflow-hidden">
-      {/* Slick Slider */}
       <Slider {...settings}>
-        {banners.map((banner, index) => (
-          <div key={index} className="relative">
-            <img src={banner.img} alt={banner.title} className="w-full h-64 object-cover" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50">
-              <h2 className="text-3xl font-bold">{banner.title}</h2>
-              <p className="mt-2">{banner.description}</p>
-              <button className="bg-orange-500 mt-4 py-2 px-4 rounded">Shop Now</button>
-            </div>
+        {banners.map((banner , index) => (
+          <div key={`${banner._id}-${index}`} className="relative">
+
+            <img
+              src={banner.images || "https://via.placeholder.com/800x400"}
+              alt={"Banner"}
+              className="w-full h-64 object-cover"
+            />
           </div>
         ))}
       </Slider>

@@ -11,6 +11,8 @@ import Wishlist from './components/WishList/WishList';
 import ProductList from "./components/productList/ProductList";
 import Orders from './components/Order/Orders';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProductFashion from './components/Fashion/Fashion';
+import ProductMobile from './components/Mobiles/Mobiles'
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/Login" element={<LoginForm />} />
         <Route path="/WishList" element={<Wishlist />} />
         <Route path="/ProductList" element={<ProductList />} />
+        <Route path='/Fashion/:categoryId/:name' element={<ProductFashion/>} />
+        <Route path='/Mobile/:categoryId/:name' element={<ProductMobile/>} />
 
         {/* Protected Routes */}
         <Route 

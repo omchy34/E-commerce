@@ -15,11 +15,11 @@ const productSchema = new Schema({
   }],
   BestDeals: [{
     type: String,
-    required: true,
   }],
-  SpecialCategory: [{
+  SpecialCategory: {
     type: String,
-  }],
+    required:true,
+  },
   Stock: {
     type: String,
     required: true,

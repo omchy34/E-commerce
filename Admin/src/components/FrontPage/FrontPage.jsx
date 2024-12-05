@@ -15,11 +15,11 @@ const FrontPage = () => {
     try {
       const formData = new FormData();
       formData.append("name", BannerText);
-      formData.append("images", BannerImage); // Attach file
+      formData.append("images", BannerImage); 
 
       const res = await axios.post("/api/v1/admin/addBanner", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Required for file uploads
+          "Content-Type": "multipart/form-data", 
         },
       });
       console.log(res);
@@ -32,7 +32,7 @@ const FrontPage = () => {
     try {
       const formData = new FormData();
       formData.append("name", CategoryText);
-      formData.append("images", CategoryImage); // Attach file
+      formData.append("images", CategoryImage); 
 
       const res = await axios.post("/api/v1/admin/addSepicalCategory", formData, {
         headers: {
@@ -54,7 +54,17 @@ const FrontPage = () => {
       }
     }
 
+    async function FetchCat() {
+      const res = await axios.get("/api/v1/admin/GetAllBanner");
+      console.log(res);
+      if (res) {
+        setExistingBanner(res.data.allBanners)
+      }
+    }
+
     FetchSep()
+
+    FetchCat()
   }, [])
 
 
@@ -90,12 +100,12 @@ const FrontPage = () => {
           >
             Add Banner
           </button>
-          {/* <h2 className="text-2xl font-bold text-center text-purple-800 mt-6 mb-4">Added Banners</h2>
-          {banner.length === 0 ? (
+          <h2 className="text-2xl font-bold text-center text-purple-800 mt-6 mb-4">Added Banners</h2>
+          {ExistingBanner.length === 0 ? (
             <p className="text-gray-600 text-center">No banners added yet.</p>
           ) : (
             <ul>
-              {banners.map((banner, index) => (
+              {ExistingBanner.map((banner, index) => (
                 <li key={banner._id} className="mb-4">
                   <div className="mb-2 text-lg font-semibold">{banner.name}</div>
                   <img
@@ -104,7 +114,7 @@ const FrontPage = () => {
                     className="w-full h-40 object-cover rounded-md"
                   />
                   <button
-                    onClick={() => handleDeleteBanner(index, banner._id)}
+                    // onClick={() => handleDeleteBanner(index, banner._id)}
                     className="mt-2 bg-red-600 text-white py-1 px-3 rounded-lg"
                   >
                     Delete Banner
@@ -112,7 +122,7 @@ const FrontPage = () => {
                 </li>
               ))}
             </ul>
-          )} */}
+          )}
         </div>
         {/* Category Section */}
         <div className="w-1/2 bg-white p-6 rounded-lg shadow-md">
@@ -148,11 +158,11 @@ const FrontPage = () => {
           ) : (
             <ul>
               {ExistingCategory.map((category, index) => (
-                <li key={category.id} className="mb-4">
+                <li key={category._id} className="mb-4">
                   <div className="mb-2 text-lg font-semibold">{category.name}</div>
                   <img
-                    src=''
-                    alt={`Category ${index + 1}`}
+                    src={category.images}
+                    alt={`broken`}
                     className="w-full h-40 object-cover rounded-md"
                   />
                   <button

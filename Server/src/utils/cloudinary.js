@@ -7,29 +7,57 @@ cloudinary.config({
 });
 
 // Function to upload multiple images (buffers)
+
 const uploadImages = (fileBuffers) => {
-  const buffers = Array.isArray(fileBuffers) ? fileBuffers : [fileBuffers];
+    const buffers = Array.isArray(fileBuffers) ? fileBuffers : [fileBuffers];
 
-  const uploadPromises = buffers.map((buffer, index) => {
-    return new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto' },
-        (error, result) => {
-          if (error) {
-            reject(new Error(`Error uploading file ${index + 1}: ${error.message}`));
-          } else {
-            resolve(result);
-          }
-        }
-      );
+    const uploadPromises = buffers.map((buffer, index) => {
+        return new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                { resource_type: 'auto' },
+                (error, result) => {
+                    if (error) {
+                        console.error(`Error uploading file ${index + 1}:`, error);
+                        reject(new Error(`Error uploading file ${index + 1}: ${error.message}`));
+                    } else {
+                        console.log(`File ${index + 1} uploaded successfully:`, result.secure_url);
+                        resolve(result);
+                    }
+                }
+            );
 
-      // Stream the buffer into the Cloudinary upload stream
-      stream.end(buffer);
+            // Stream the buffer into the Cloudinary upload stream
+            stream.end(buffer);
+        });
     });
-  });
 
-  return Promise.all(uploadPromises);
+    return Promise.all(uploadPromises);
 };
+
+
+// const uploadImages = (fileBuffers) => {
+//   const buffers = Array.isArray(fileBuffers) ? fileBuffers : [fileBuffers];
+
+//   const uploadPromises = buffers.map((buffer, index) => {
+//     return new Promise((resolve, reject) => {
+//       const stream = cloudinary.uploader.upload_stream(
+//         { resource_type: 'auto' },
+//         (error, result) => {
+//           if (error) {
+//             reject(new Error(`Error uploading file ${index + 1}: ${error.message}`));
+//           } else {
+//             resolve(result);
+//           }
+//         }
+//       );
+
+//       // Stream the buffer into the Cloudinary upload stream
+//       stream.end(buffer);
+//     });
+//   });
+
+//   return Promise.all(uploadPromises);
+// };
 
 
 // Function to delete an image

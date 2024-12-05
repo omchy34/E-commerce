@@ -19,19 +19,9 @@ const AddProduct = () => {
   });
   const [aboutItem, setAboutItem] = useState('');
 
-  const [specialCategory, setSpecialCategory] = useState([]);
+  const [specialcategoryss, setSpecialCategory] = useState([]);
 
-  useEffect(() => {
-    async function FetchSep() {
-      const res = await axios.get("/api/v1/admin/GetAllSepicalCategory");
-      console.log(res);
-      if (res) {
-        setSpecialCategory(res.data.allSepicalCategory)
-      }
-    }
 
-    FetchSep()
-  }, [])
 
   useEffect(() => {
     async function fetchCategories() {
@@ -52,6 +42,15 @@ const AddProduct = () => {
       }
     }
 
+    async function FetchSep() {
+      const res = await axios.get("/api/v1/admin/GetAllSpecialCategory");
+      console.log(res);
+      if (res) {
+        setSpecialCategory(res.data.allSepicalCategory)
+      }
+    }
+
+    FetchSep()
     fetchCategories();
     fetchBestDeals();
   }, []);
@@ -91,7 +90,7 @@ const AddProduct = () => {
     formData.append('Price', productData.Price);
     formData.append('Category', productData.Category);
     formData.append('BestDeals', productData.BestDeals);
-    formData.append('SepicalCategory', productData.SpecialCategory)
+    formData.append('SpecialCategory', productData.SpecialCategory)
     formData.append('Stock', productData.Stock);
     formData.append('Brand', productData.Brand);
     formData.append('Description', productData.Description);
@@ -120,6 +119,7 @@ const AddProduct = () => {
         Stock: 'In Stock',
         Brand: '',
         Description: '',
+        SpecialCategory:'',
         About: [],
         images: [],
       });
@@ -150,21 +150,20 @@ const AddProduct = () => {
           </div>
           {/* Special Category */}
           <div className="flex-1 min-w-[300px] mb-4">
-            <label className="block text-gray-700 font-semibold">Special Category</label>
+            <label className="block text-gray-700 font-semibold">SpecialCategory</label>
 
 
             <select
               name="SpecialCategory"
               value={productData.SpecialCategory}
               onChange={handleChange}
+              required
               className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-purple-600 transition duration-200"
             >
-              <option value="">Select Special Category</option>
-              {
-                specialCategory.map((i) => {
-                 return <option key={i._id} value={i.name}>{i.name}</option>
-                })
-              }
+              <option value="">Select SpecialCategory</option>
+              {specialcategoryss.map((SpecialCategory) => (
+                <option key={SpecialCategory._id} value={SpecialCategory.name}>{SpecialCategory.name}</option>
+              ))}
 
             </select>
           </div>

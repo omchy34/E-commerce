@@ -7,16 +7,17 @@ const AddProduct = async (req, res) => {
         ProductName,
         Price,
         About,
-        SepicalCategory,
+        SpecialCategory,
         Description,
         Brand,
         Stock,
         BestDeals,
         Category,
+        
     } = req.body;
 
 
-    if (!ProductName || !Price || !About || !Description || !SepicalCategory || !Brand || !Stock || !BestDeals || !Category) {
+    if (!ProductName || !Price || !About || !Description || !SpecialCategory || !Brand || !Stock || !BestDeals || !Category) {
         return res.status(400).json({ message: "Please fill in all fields" });
     }
 
@@ -45,7 +46,7 @@ const AddProduct = async (req, res) => {
             Description,
             Brand,
             Stock,
-            SepicalCategory,
+            SpecialCategory,
             BestDeals,
             Category,
             Images: imageUrls,
