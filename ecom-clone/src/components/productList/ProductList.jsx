@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
+
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Addtocart } from "../../features/AddToCart/AddToCart.js";
 import { Addtowishlist, Removefromwishlist } from "../../features/WishList/WishList.js";
 
-const ProductListing = () => {
+
+const ProductFashion = () => {
+
   const [productsData, setProductsData] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [showFilters, setShowFilters] = useState(false);
   const dispatch = useDispatch();
-
   const wishlist = useSelector((state) => state.Wishlist.Wishlist || []);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+
         const response = await axios.get("/api/v1/admin/FetchProduct");
-        
-        setProductsData(response.data.allProducts);
+
+        setProductsData(response.data.allProducts)
+
+
       } catch (error) {
         console.error("Failed to fetch products:", error);
       }
@@ -31,10 +36,27 @@ const ProductListing = () => {
       product.Price >= priceRange[0] && product.Price <= priceRange[1]
   );
 
-  const handleAddToCart = (product) => {
-    dispatch(Addtocart(product));
-    alert(`${product.ProductName} has been added to your cart.`);
+  const handleAddToCart = async (product) => {
+    const cartItem = {
+      ProductId: product._id,
+      ProductName: product.ProductName,
+      Price: product.Price,
+      SubTotal: product.Price,
+      Quantity: 1,
+      Brand: product.Brand,
+      Images: product.Images[0],
+    };
+    const res = await axios.post("/api/v1/users/add-to-cart" , cartItem,{
+      withCredentials: true,
+    }) ;
+    console.log(res);
+    if(res.data.cartData){
+      dispatch(Addtocart(cartItem));
+      console.log(cartItem);
+    }
+      alert(`${product.ProductName} has been added to your cart.`);
   };
+
 
   const handleAddToWishlist = (product) => {
     const isInWishlist = wishlist.some((item) => item._id === product._id);
@@ -44,8 +66,7 @@ const ProductListing = () => {
       dispatch(Addtowishlist(product));
     }
     alert(
-      `${product.ProductName} has been ${
-        isInWishlist ? "removed from" : "added to"
+      `${product.ProductName} has been ${isInWishlist ? "removed from" : "added to"
       } your wishlist.`
     );
   };
@@ -60,9 +81,8 @@ const ProductListing = () => {
       </button>
 
       <div
-        className={`md:w-1/6 bg-gray-100 p-4 rounded-md shadow-lg ${
-          showFilters ? "block" : "hidden md:block"
-        }`}
+        className={`md:w-1/6 bg-gray-100 p-4 rounded-md shadow-lg ${showFilters ? "block" : "hidden md:block"
+          }`}
       >
         <h2 className="text-xl font-semibold mb-4">Filter</h2>
         <div className="mb-4">
@@ -107,4 +127,4 @@ const ProductListing = () => {
   );
 };
 
-export default ProductListing;
+export default ProductFashion;

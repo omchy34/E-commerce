@@ -14,23 +14,23 @@ const sepicalcategory = async (req, res) => {
         return res.status(400).json({ message: "Please upload an image" });
     }
 
-    // Upload image to Cloudinary
-    const uploadResult = await uploadImages(images.buffer); // This returns an array
+    
+    const uploadResult = await uploadImages(images.buffer);
     if (!uploadResult || uploadResult.length === 0) {
         return res.status(401).json({ message: "Image upload failed" });
     }
 
-    const imageUrl = uploadResult[0].secure_url; // Get the secure_url of the first uploaded image
+    const imageUrl = uploadResult[0].secure_url; 
     console.log("Uploaded Image URL:", imageUrl);
 
     if (!imageUrl) {
         return res.status(401).json({ message: "Image URL is undefined" });
     }
 
-    // Save the banner with the uploaded image URL
+   
     const newSepicalCategory = await SpecialCategory.create({
         name,
-        images: imageUrl, // Assign the secure_url to the images field
+        images: imageUrl, 
     });
 
     res.status(200).json({ message: "Banner added successfully", newSepicalCategory });
@@ -53,23 +53,23 @@ const banner = async (req, res) => {
           return res.status(400).json({ message: "Please upload an image" });
       }
 
-      // Upload image to Cloudinary
-      const uploadResult = await uploadImages(images.buffer); // This returns an array
+   
+      const uploadResult = await uploadImages(images.buffer); 
       if (!uploadResult || uploadResult.length === 0) {
           return res.status(401).json({ message: "Image upload failed" });
       }
 
-      const imageUrl = uploadResult[0].secure_url; // Get the secure_url of the first uploaded image
+      const imageUrl = uploadResult[0].secure_url; 
       console.log("Uploaded Image URL:", imageUrl);
 
       if (!imageUrl) {
           return res.status(401).json({ message: "Image URL is undefined" });
       }
 
-      // Save the banner with the uploaded image URL
+      
       const newBanner = await Banner.create({
           name,
-          images: imageUrl, // Assign the secure_url to the images field
+          images: imageUrl, 
       });
 
       res.status(200).json({ message: "Banner added successfully", newBanner });

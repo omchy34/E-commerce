@@ -2,7 +2,6 @@ import { User } from '../models/user.model.js';
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken';
 
-// User Registration
 const Registration = async (req, res) => {
     const { FullName, Email, Phone, Password } = req.body;
 
@@ -38,7 +37,6 @@ const Registration = async (req, res) => {
     }
 };
 
-// User Login
 const Login = async (req, res) => {
     const { Email, Password } = req.body;
 

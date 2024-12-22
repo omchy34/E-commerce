@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [AccessToken, setAccessToken] = useState("");
   const [Name, setName] = useState("");
-  // FirstName
+
   const firstName = Name.split(" ")[0];
 
   const toggleDropdown = () => {
@@ -21,16 +21,20 @@ const Navbar = () => {
     setIsMobile(window.innerWidth < 768);
   };
 
-
   useEffect(() => {
     async function userData() {
-      const res = await axios.get("/api/v1/users/userData", {
-        withCredentials: true,
-      });
+      try {
+        const res = await axios.get("/api/v1/users/userData", {
+          withCredentials: true,
+        });
 
-      console.log(res);
-      setAccessToken(res.data.userData.AccessToken);
-      setName(res.data.userData.FullName);
+        if (res.data.userData) {
+          setAccessToken(res.data.userData.AccessToken);
+          setName(res.data.userData.FullName);
+        }
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
     }
 
     userData();
@@ -68,102 +72,107 @@ const Navbar = () => {
         {/* Right: Login, Cart, More Dropdown */}
         <div className="flex space-x-4 items-center text-sm md:text-base font-medium">
           {/* Dropdown Toggle Icon */}
-          <div className="relative">
-            <button
-              onClick={toggleDropdown}
-              className="md:hidden flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
-            >
-              <span className="text-sm">{firstName}</span>
-              <MdManageAccounts size={28} />
-            </button>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && isMobile && (
-              <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-10">
-                <Link
-                  to="/"
-                  className="flex items-center p-2 hover:bg-gray-200"
+          {isMobile && (
+            <div className="relative">
+              {AccessToken && Name ? (
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
                 >
-                  <FaHome size={22} />
-                  <span className="ml-2">Home</span>
+                  <span className="text-sm">{firstName}</span>
+                  <MdManageAccounts size={28} />
+                </button>
+              ) : (
+                <Link
+                  to="/RegistrationForm"
+                  className="flex items-center hover:text-yellow-300 cursor-pointer transition duration-200"
+                >
+                  <MdManageAccounts size={28} />
+                  <span className="ml-2">Register</span>
                 </Link>
-                {AccessToken ? (
+              )}
+
+              {/* Dropdown Menu */}
+              {isDropdownOpen && AccessToken && Name && (
+                <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-10">
+                  <Link
+                    to="/"
+                    className="flex items-center p-2 hover:bg-gray-200"
+                  >
+                    <FaHome size={22} />
+                    <span className="ml-2">Home</span>
+                  </Link>
                   <Link
                     to="/Profile"
                     className="flex items-center p-2 hover:bg-gray-200"
                   >
                     <MdManageAccounts size={22} />
-                    <span className="ml-2">Login</span>
+                    <span className="ml-2">Profile</span>
                   </Link>
-                ) : (
+
                   <Link
-                    to="RegistrationForm"
+                    to="/cart"
                     className="flex items-center p-2 hover:bg-gray-200"
                   >
-                    <MdManageAccounts size={22} />
-                    <span className="ml-2">Register</span>
+                    <FaShoppingCart size={22} />
+                    <span className="ml-2">Cart</span>
                   </Link>
-                )}
-
-                <Link
-                  to="/cart"
-                  className="flex items-center p-2 hover:bg-gray-200"
-                >
-                  <FaShoppingCart size={22} />
-                  <span className="ml-2">Cart</span>
-                </Link>
-                <Link
-                  to="/WishList"
-                  className="flex items-center p-2 hover:bg-gray-200"
-                >
-                  <FaHeart size={22} />
-                  <span className="ml-2">Wishlist</span>
-                </Link>
-              </div>
-            )}
-          </div>
+                  <Link
+                    to="/WishList"
+                    className="flex items-center p-2 hover:bg-gray-200"
+                  >
+                    <FaHeart size={22} />
+                    <span className="ml-2">Wishlist</span>
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Icons for Tablet and Desktop */}
-          <div className="hidden md:flex space-x-4 items-center text-sm md:text-base font-medium">
-            <Link
-              to="/"
-              className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
-            >
-              <span>{firstName}</span>
-              <FaHome size={22} />
-            </Link>
-            {AccessToken ? (
+          {!isMobile && (
+            <div className="hidden md:flex space-x-4 items-center text-sm md:text-base font-medium">
+              {AccessToken ? (
+                <>
+                  <Link
+                    to="/"
+                    className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
+                  >
+                    <span>{firstName}</span>
+                    <FaHome size={22} />
+                  </Link>
+                  <Link
+                    to="/Profile"
+                    className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
+                  >
+                    <MdManageAccounts size={28} />
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  to="/RegistrationForm"
+                  className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
+                >
+                  <MdManageAccounts size={28} />
+                  <span>Register</span>
+                </Link>
+              )}
               <Link
-                to="/Profile"
+                to="/cart"
+                state={{ isLoggedIn: !!AccessToken }} // Passing login state to the cart page
                 className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
               >
-                <MdManageAccounts size={28} />
+                <FaShoppingCart size={22} />
               </Link>
-            ) : (
+
               <Link
-                to="RegistrationForm"
-                className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
+                to="/WishList"
+                className="flex items-center space-x-2 hover:text-red-500 cursor-pointer transition duration-200"
               >
-                <MdManageAccounts size={28} />
+                <FaHeart size={22} />
               </Link>
-            )}
-
-            <Link
-              to="/cart"
-              state={{ isLoggedIn: !!AccessToken }} // Passing login state to the cart page
-              className="flex items-center space-x-2 hover:text-yellow-300 cursor-pointer transition duration-200"
-            >
-              <FaShoppingCart size={22} />
-            </Link>
-
-            {/* Wishlist Icon */}
-            <Link
-              to="/WishList"
-              className="flex items-center space-x-2 hover:text-red-500 cursor-pointer transition duration-200"
-            >
-              <FaHeart size={22} />
-            </Link>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>

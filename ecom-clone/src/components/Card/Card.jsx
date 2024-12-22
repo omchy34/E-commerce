@@ -5,21 +5,22 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"; // Import js-cookie
 
 const Card = ({ product, onAddToCart, onAddToWishlist, isInWishlist }) => {
+  
   const cartItems = useSelector((state) => state.Addtocart.cartItems);
-  const isInCart = cartItems.some((item) => item._id === product._id);
+
+
+  const isInCart = cartItems.some((item) => item.ProductId === product._id);
+
   const navigate = useNavigate();
+  const isLoggedIn = !!Cookies.get("AccessToken");
 
-  // Check if user is logged in by reading cookies
-  const isLoggedIn = !!Cookies.get("AccessToken"); // Convert cookie value to boolean
-
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!isLoggedIn) {
       alert("Please login to add items to the cart.");
-      navigate("/login"); // Redirect to login page
+      navigate("/login"); 
       return;
     }
-
-    onAddToCart(product); // Add to cart if logged in
+    onAddToCart(product); // Calling the passed down function to add to the cart
   };
 
   return (

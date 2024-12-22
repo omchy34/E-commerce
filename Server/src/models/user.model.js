@@ -15,6 +15,7 @@ const userSchema = new Schema({
         required: true,
         trim: true,
         unique: true,
+        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
     Phone: {
         type: String,
@@ -25,13 +26,8 @@ const userSchema = new Schema({
     Password: {
         type: String,
         required: true,
+        minlength:8,
     },
-    CartData: [
-        {
-            productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-            quantity: { type: String, required: true },
-        }
-    ],
     isAdmin: {
         type: Boolean,
         default: false,
