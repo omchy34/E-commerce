@@ -12,7 +12,7 @@ const EditProfile = () => {
 
   useEffect(() => {
     async function userData() {
-      const res = await axios.get("/api/v1/users/userData", {
+      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/users/userData", {
         withCredentials: true,
       });
 

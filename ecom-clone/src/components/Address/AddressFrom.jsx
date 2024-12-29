@@ -21,7 +21,7 @@ const AddressForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("/api/v1/users/Addaddress",formData , {
+            const res = await axios.post("https://e-commerceserver-uu0f.onrender.comhttps://e-commerceserver-uu0f.onrender.com/api/v1/users/Addaddress",formData , {
                 withCredentials : true
             })
             if (res) {

@@ -21,7 +21,7 @@ const Search = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `/api/v1/admin/search-product/${encodeURIComponent(searchValue)}`
+        `https://e-commerceserver-uu0f.onrender.com/api/v1/admin/search-product/${encodeURIComponent(searchValue)}`
       );
       console.log("API Response:", response.data); 
       setSuggestions(response.data.suggestions || []);

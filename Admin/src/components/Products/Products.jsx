@@ -7,7 +7,7 @@ const Products = () => {
 
   useEffect(() => {
     async function FetchProduct() {
-      const res = await axios.get("/api/v1/admin/FetchProduct") ;
+      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchProduct") ;
       console.log(res);
       setproducts(res.data.allProducts) ;
     }

@@ -9,7 +9,7 @@ const BestDeals = () => {
   const addDeal = async (e) => {
     e.preventDefault();
 
-    const res = await axios.post("/api/v1/admin/add-BestDeals", {
+    const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/add-BestDeals", {
       name: dealName,
     });
     console.log(res);
@@ -18,7 +18,7 @@ const BestDeals = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("/api/v1/admin/getBestDeals");
+      const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/getBestDeals");
       setBestDeals(response.data);
     }
 

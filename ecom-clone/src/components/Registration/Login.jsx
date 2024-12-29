@@ -32,7 +32,7 @@ const LoginForm = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("/api/v1/users/Login", formData);
+      const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/users/Login", formData);
       setLoading(false);
     
 

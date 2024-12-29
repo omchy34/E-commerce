@@ -9,13 +9,13 @@ const Category = () => {
   // Add category to temp data
   const addCategory = async (e) => {
     e.preventDefault();
-    const res = await axios.post("/api/v1/admin/add-category", ({name:categoryName}))
+    const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/add-category", ({name:categoryName}))
     console.log(res);
   };
 
   useEffect(()=>{
     async function fetchCategory(){
-      const res = await axios.get("/api/v1/admin/GetAllCategory") ;
+      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllCategory") ;
       console.log(res);
       setCategories(res.data);
      
