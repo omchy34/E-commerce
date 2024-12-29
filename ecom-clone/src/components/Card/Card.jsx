@@ -2,7 +2,7 @@ import React from "react";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie"; // Import js-cookie
+import Cookies from "js-cookie";
 
 const Card = ({ product, onAddToCart, onAddToWishlist, isInWishlist }) => {
   
@@ -20,11 +20,16 @@ const Card = ({ product, onAddToCart, onAddToWishlist, isInWishlist }) => {
       navigate("/login"); 
       return;
     }
-    onAddToCart(product); // Calling the passed down function to add to the cart
+    onAddToCart(product); 
   };
 
+  const HandleID = async (id) => {
+    navigate(`/ProductDetails/${id}`)
+  }
+
   return (
-    <div className="border rounded-md overflow-hidden shadow-md transition-transform transform hover:scale-105">
+    
+    <div className="border rounded-md overflow-hidden shadow-md transition-transform transform hover:scale-105" onClick={()=>HandleID(product._id)}>
       <img
         src={product.Images[0]}
         alt={product.ProductName}

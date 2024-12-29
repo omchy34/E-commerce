@@ -73,4 +73,25 @@ const ProductDetails = async (req, res) => {
     }
 };
 
-export { AddProduct, deleteProduct, FetchAllProduct, ProductDetails };
+ const Search = async (req, res) => {
+    const { query } = req.params;
+  
+    if (!query || query.trim() === "") {
+      return res.status(400).json({ error: "Query parameter is required" });
+    }
+  
+    try {
+      const results = await Product.find({
+        ProductName: { $regex: query, $options: "i" }, 
+      }).limit(10);
+  
+      res.json({ suggestions: results });
+    } catch (error) {
+      console.error("Error during search:", error);
+      res.status(500).json({ error: "Server error during search" });
+    }
+  };
+  
+  
+
+export { AddProduct, deleteProduct, FetchAllProduct, ProductDetails , Search};

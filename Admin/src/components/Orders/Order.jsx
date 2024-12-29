@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const Order = () => {
-  const [orders, setOrders] = useState([
-    { id: 1, customerName: 'John Doe', orderDate: '2024-10-01', paymentStatus: 'paid', status: 'Shipped', amount: 100 },
-    { id: 2, customerName: 'Jane Smith', orderDate: '2024-10-02', paymentStatus: 'pending', status: 'Pending', amount: 150 },
-    { id: 3, customerName: 'Mark Johnson', orderDate: '2024-10-03', paymentStatus: 'Cash On Delivery', status: 'Delivered', amount: 200 },
-    { id: 4, customerName: 'Sara Lee', orderDate: '2024-10-03', paymentStatus: 'pending', status: 'Delivered', amount: 250 },
-    // Add more orders as needed
-  ]);
-
+  const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState('All');
 
   const handleFilterChange = (e) => {
@@ -18,6 +12,16 @@ const Order = () => {
   };
 
   const filteredOrders = filter === 'All' ? orders : orders.filter(order => order.status === filter);
+
+  useEffect(() => {
+    async function getOrder() {
+      const response = await axios.get("/api/v1/admin/fetchAllOrders");
+      setOrders(response.data.orders);
+      console.log(response);
+    }
+
+    getOrder();
+  }, []);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -53,28 +57,28 @@ const Order = () => {
           <tbody>
             {filteredOrders.length > 0 ? (
               filteredOrders.map(order => (
-                <tr key={order.id} className="hover:bg-gray-100 transition duration-300 text-center">
-                  <td className="p-3 font-medium text-gray-700">{order.id}</td>
-                  <td className="p-3 font-medium text-gray-700">{order.customerName}</td>
-                  <td className="p-3 font-medium text-gray-700">{order.orderDate}</td>
-                  
+                <tr key={order._id} className="hover:bg-gray-100 transition duration-300 text-center">
+                  <td className="p-3 font-medium text-gray-700">{order.razorpayOrderId}</td>
+                  <td className="p-3 font-medium text-gray-700">{order.user ? order.user.FullName : "N/A"}</td>
+                  <td className="p-3 font-medium text-gray-700">{new Date(order.createdAt).toLocaleDateString()}</td>
+
                   {/* Payment Status */}
-                  <td className={`p-3 font-medium ${order.paymentStatus === 'paid' ? 'text-green-600' : order.paymentStatus === 'pending' ? 'text-red-600' : 'text-yellow-600'}`}>
-                    <span className={`inline-block px-2 py-1 text-xs font-bold rounded-full ${order.paymentStatus === 'paid' ? 'bg-green-200' : order.paymentStatus === 'pending' ? 'bg-red-200' : 'bg-yellow-200'}`}>
+                  <td className={`p-3 font-medium ${order.paymentStatus === 'SUCCESS' ? 'text-green-600' : order.paymentStatus === 'PENDING' ? 'text-red-600' : 'text-yellow-600'}`}>
+                    <span className={`inline-block px-2 py-1 text-xs font-bold rounded-full ${order.paymentStatus === 'SUCCESS' ? 'bg-green-200' : order.paymentStatus === 'PENDING' ? 'bg-red-200' : 'bg-yellow-200'}`}>
                       {order.paymentStatus}
                     </span>
                   </td>
-                  
+
                   {/* Order Status */}
                   <td className={`p-3 font-medium ${order.status === 'Shipped' ? 'text-yellow-600' : order.status === 'Pending' ? 'text-orange-600' : 'text-green-600'}`}>
                     <span className={`inline-block px-2 py-1 text-xs font-bold rounded-full ${order.status === 'Shipped' ? 'bg-yellow-200' : order.status === 'Pending' ? 'bg-orange-200' : 'bg-green-200'}`}>
                       {order.status}
                     </span>
                   </td>
-                  
-                  <td className="p-3 font-medium text-gray-700">${order.amount}</td>
+
+                  <td className="p-3 font-medium text-gray-700">₹{order.subtotal}</td>
                   <td className="p-3 flex justify-center space-x-4">
-                    <Link to="/orderdetails" className="text-blue-500 hover:text-blue-600 transition duration-300" title="View Order">
+                    <Link to={`/orderdetails/${order._id}`} className="text-blue-500 hover:text-blue-600 transition duration-300" title="View Order">
                       <FaEye />
                     </Link>
                     <button className="text-red-500 hover:text-red-600 transition duration-300" title="Delete Order">

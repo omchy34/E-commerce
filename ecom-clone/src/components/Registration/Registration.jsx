@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -9,47 +11,50 @@ const RegistrationForm = () => {
     Password: '',
     Phone: ''
   });
-  const navigate = useNavigate() ;
+  const navigate = useNavigate();
 
-  async function Register(e) {
+  const Register = async (e) => {
     e.preventDefault();
-    const res = await axios.post("/api/v1/users/Register", formData, {
-      withCredentials: true
-    });
-    console.log(res);
-    
-    if(res){
-      if(res.data.user.AccessToken){
-        navigate('/Profile')
-      }
+
+    // Frontend validation
+    if (formData.Password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
     }
 
-  }
+    try {
+      const res = await axios.post('/api/v1/users/Register', formData, {
+        withCredentials: true,
+      });
+
+      if (res.data && res.data.user.AccessToken) {
+        toast.success('Registration successful! Redirecting...');
+        setTimeout(() => navigate('/Profile'), 2000); // Redirect after 2 seconds
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || 'Something went wrong';
+      toast.error(message);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-black flex justify-center items-center">
+      <ToastContainer />
       <div className="bg-white shadow-lg rounded-md p-4 sm:p-6 w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-4">
-          <h2 className="text-2xl font-semibold text-gray-800">
-            Create your account
-          </h2>
+          <h2 className="text-2xl font-semibold text-gray-800">Create your account</h2>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={Register} className="space-y-3">
           {/* Full Name */}
           <div>
             <label className="block text-sm text-gray-600 mb-1">Full Name</label>
@@ -109,7 +114,6 @@ const RegistrationForm = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            onClick={Register}
             className="w-full bg-yellow-500 text-white py-2 text-sm rounded-md hover:bg-yellow-600 transition duration-300"
           >
             Sign Up
