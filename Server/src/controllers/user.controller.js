@@ -20,7 +20,7 @@ const Registration = async (req, res) => {
         newUser.AccessToken = AccessToken;
         await newUser.save();
 
-        res.cookie('token', token, {
+        res.cookie('AccessToken', AccessToken, {
             httpOnly: true,
             secure: true,             // Set secure to true in production to use HTTPS
             sameSite: 'None',        // SameSite set to strict for CSRF protection
@@ -64,7 +64,7 @@ const Login = async (req, res) => {
 
         const AccessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
 
-        res.cookie('token', token, {
+        res.cookie('AccessToken', AccessToken, {
             httpOnly: true,
             secure: true,             // Set secure to true in production to use HTTPS
             sameSite: 'None',        // SameSite set to strict for CSRF protection
