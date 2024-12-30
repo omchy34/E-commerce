@@ -5,19 +5,18 @@ import bodyParser from 'body-parser';
 
 const app = express()
 
-app.use(cors({
-    origin: [process.env.FRONTEND_CORS_ORIGIN, process.env.ADMIN_CORS_ORIGIN],
-    methods: ["POST", "GET", "DELETE", "PATCH", "HEAD", "PUT"],
-    credentials: true ,
-}));
-
-
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cors({
+    origin: [process.env.FRONTEND_CORS_ORIGIN, process.env.ADMIN_CORS_ORIGIN],
+    methods: ["POST", "GET", "DELETE", "PATCH", "HEAD", "PUT"],
+    credentials: true ,
+}));
 
 // import routes  
 import UserRouter from "./routes/user.routes.js";
