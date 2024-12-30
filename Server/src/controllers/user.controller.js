@@ -22,11 +22,10 @@ const Registration = async (req, res) => {
 
         res.cookie('AccessToken', AccessToken, {
             httpOnly: true,
-            secure: true,             // Set secure to true in production to use HTTPS
-            sameSite: 'None',        // SameSite set to strict for CSRF protection
+            secure: process.env.NODE_ENV === 'production', // Use secure only in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // None for cross-site cookies, Lax for local testing
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
-          });
-        
+        });
         res.status(201).json({
             message: "User registered successfully.",
             user: {
@@ -66,10 +65,10 @@ const Login = async (req, res) => {
 
         res.cookie('AccessToken', AccessToken, {
             httpOnly: true,
-            secure: true,             // Set secure to true in production to use HTTPS
-            sameSite: 'None',        // SameSite set to strict for CSRF protection
+            secure: process.env.NODE_ENV === 'production', // Use secure only in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // None for cross-site cookies, Lax for local testing
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
-          });
+        });
         
         res.status(200).json({
             message: "Login successfully",
