@@ -34,12 +34,7 @@ const LoginForm = () => {
     try {
       const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/users/Login", formData);
       setLoading(false);
-    
 
-      
-      
-      
-      
       if (res.data) {
       navigate("/Profile");
       toast.success("Login successful!");

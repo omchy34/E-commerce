@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "js-cookie"
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ const RegistrationForm = () => {
       });
 
       if (res.data && res.data.user.AccessToken) {
+        Cookies.set(res.data.user.AccessToken)
         toast.success('Registration successful! Redirecting...');
         setTimeout(() => navigate('/Profile'), 2000); // Redirect after 2 seconds
       }
