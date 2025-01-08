@@ -36,6 +36,7 @@ const LoginForm = () => {
         withCredentials:true
       });
       setLoading(false);
+console.log(res.data);
 
       if (res.data) {
       navigate("/Profile");
