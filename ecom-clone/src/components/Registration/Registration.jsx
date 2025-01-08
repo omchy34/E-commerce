@@ -28,7 +28,7 @@ const RegistrationForm = () => {
       const res = await axios.post('https://e-commerceserver-uu0f.onrender.com/api/v1/users/Register', formData, {
         withCredentials: true,
       });
-
+Cookies.set("AccessToken" , res.data.user.AccessToken)
       if (res.data && res.data.user.AccessToken) {
         Cookies.set(res.data.user.AccessToken)
         toast.success('Registration successful! Redirecting...');
