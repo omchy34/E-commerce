@@ -20,11 +20,6 @@ const Registration = async (req, res) => {
         newUser.AccessToken = AccessToken;
         await newUser.save();
 
-        res.cookie('AccessToken', AccessToken,{
-            httpOnly: false,
-            maxAge: 24 * 60 * 60 * 1000 // 24 hours
-
-        });
         res.cookie("AccessToken", AccessToken, {
             httpOnly: true, 
             secure: true,
