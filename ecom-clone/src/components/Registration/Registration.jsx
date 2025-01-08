@@ -25,7 +25,7 @@ const RegistrationForm = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:5673/api/v1/users/Register', formData, {
+      const res = await axios.post('https://e-commerceserver-uu0f.onrender.com/api/v1/users/Register', formData, {
         withCredentials: true,
       });
 

@@ -23,7 +23,7 @@ const Cart = () => {
     useEffect(() => {
         const fetchCartData = async () => {
             try {
-                const res = await axios.get("http://localhost:5673/api/v1/users/fetch-cart", { withCredentials: true });
+                const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/users/fetch-cart", { withCredentials: true });
                 if (res.data && res.data.newItem) {
                     dispatch(setCartItems(res.data.newItem));
                 } else {
@@ -38,7 +38,7 @@ const Cart = () => {
 
         const fetchAddresses = async () => {
             try {
-                const res = await axios.get("http://localhost:5673/api/v1/users/FetchAddress", { withCredentials: true });
+                const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/users/FetchAddress", { withCredentials: true });
                 console.log(res);
 
                 setAddresses(res.data.data || []);
@@ -53,7 +53,7 @@ const Cart = () => {
 
     const handleRemoveFromCart = async (id) => {
         try {
-            await axios.delete(`http://localhost:5673/api/v1/users/delete-from-cart/${id}`, { withCredentials: true });
+            await axios.delete(`https://e-commerceserver-uu0f.onrender.com/api/v1/users/delete-from-cart/${id}`, { withCredentials: true });
             dispatch(removeFromCart(id));
         } catch (error) {
             console.error("Error removing from cart:", error);
@@ -77,7 +77,7 @@ const Cart = () => {
 
             dispatch(Addtocart(updatedData));
 
-            await axios.put(`http://localhost:5673/api/v1/users/update-cart/${id}`, updatedData, { withCredentials: true });
+            await axios.put(`https://e-commerceserver-uu0f.onrender.com/api/v1/users/update-cart/${id}`, updatedData, { withCredentials: true });
         } catch (error) {
             console.error("Error updating quantity:", error);
         }
@@ -127,7 +127,7 @@ const Cart = () => {
         try {
             // Create order on the server
             const orderRes = await axios.post(
-                "http://localhost:5673/api/v1/admin/Pay",
+                "https://e-commerceserver-uu0f.onrender.com/api/v1/admin/Pay",
                 { ProductData, Address: selectedAddress._id , subtotal:Total},
                 { withCredentials: true }
             );
@@ -150,7 +150,7 @@ const Cart = () => {
                 handler: async (response) => {
                     // Verify payment on the server
                     const verifyRes = await axios.post(
-                        "http://localhost:5673/api/v1/admin/VerifyOrder",
+                        "https://e-commerceserver-uu0f.onrender.com/api/v1/admin/VerifyOrder",
                         {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,

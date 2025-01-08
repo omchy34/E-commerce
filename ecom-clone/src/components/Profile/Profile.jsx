@@ -14,7 +14,7 @@ const AccessToken = Cookies.get('AccessToken');
     if (AccessToken) {
       async function userData() {
         try {
-          const res = await axios.get('http://localhost:5673/api/v1/users/userData', {
+          const res = await axios.get('https://e-commerceserver-uu0f.onrender.com/api/v1/users/userData', {
             withCredentials: true,
           });
           console.log(res);

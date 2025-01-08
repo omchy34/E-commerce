@@ -8,7 +8,7 @@ const Categories = () => {
 
   useEffect(() => {
     async function FetchSepCat() {
-      const res = await axios.get("http://localhost:5673/api/v1/admin/GetAllSpecialCategory");
+      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllSpecialCategory");
       setCategory(res.data.allSepicalCategory);
     }
     FetchSepCat();

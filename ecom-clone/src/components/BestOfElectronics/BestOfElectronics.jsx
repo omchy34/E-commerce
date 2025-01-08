@@ -7,7 +7,7 @@ const BestDeals = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:5673/api/v1/admin/FetchProduct");
+        const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchProduct");
         const allProducts = response.data.allProducts;
 
         const groupedCategories = groupByCategory(allProducts);
