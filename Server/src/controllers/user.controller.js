@@ -20,7 +20,13 @@ const Registration = async (req, res) => {
         newUser.AccessToken = AccessToken;
         await newUser.save();
 
-        res.cookie("AccessToken", AccessToken);
+        res.cookie('token', token, {
+            httpOnly: true, // Prevent access via JavaScript
+            secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
+            maxAge: 7,
+            sameSite: 'None', // Important for cross-site requests
+            domain: 'https://e-commerce-nfwv.onrender.com', // Ensure the cookie works across subdomains (if needed)
+          });
         res.status(201).json({
             message: "User registered successfully.",
             user: {
@@ -59,7 +65,13 @@ const Login = async (req, res) => {
         const AccessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
 
 
-        res.cookie("AccessToken", AccessToken);
+        res.cookie('token', token, {
+            httpOnly: true, // Prevent access via JavaScript
+            secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
+            maxAge: 7,
+            sameSite: 'None', // Important for cross-site requests
+            domain: 'https://e-commerce-nfwv.onrender.com', // Ensure the cookie works across subdomains (if needed)
+          });
           
         res.status(200).json({
             message: "Login successfully",
