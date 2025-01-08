@@ -19,7 +19,7 @@ const ProductFashion = () => {
     const fetchProducts = async () => {
       try {
 
-        const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchProduct");
+        const response = await axios.get("http://localhost:5673/api/v1/admin/FetchProduct");
 
         setProductsData(response.data.allProducts)
 
@@ -46,7 +46,7 @@ const ProductFashion = () => {
       Brand: product.Brand,
       Images: product.Images[0],
     };
-    const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/users/add-to-cart" , cartItem,{
+    const res = await axios.post("http://localhost:5673/api/v1/users/add-to-cart" , cartItem,{
       withCredentials: true,
     }) ;
     console.log(res);

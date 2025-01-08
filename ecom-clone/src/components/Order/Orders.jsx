@@ -9,7 +9,7 @@ const Orders = () => {
   useEffect(() => {
     async function FtechOrder() {
       try {
-        const res = await axios.get('https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchOrder');
+        const res = await axios.get('http://localhost:5673/api/v1/admin/FetchOrder');
         console.log(res);
         setOrderData(res.data.orders);
       } catch (error) {

@@ -20,12 +20,17 @@ const Registration = async (req, res) => {
         newUser.AccessToken = AccessToken;
         await newUser.save();
 
-        res.cookie('AccessToken', AccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Use secure only in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // None for cross-site cookies, Lax for local testing
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        res.cookie('AccessToken', AccessToken,{
+            httpOnly: false,
+            maxAge: 24 * 60 * 60 * 1000 // 24 hours
+
         });
+        res.cookie("AccessToken", AccessToken, {
+            httpOnly: true, 
+            secure: true,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000, 
+          });
         res.status(201).json({
             message: "User registered successfully.",
             user: {
@@ -63,14 +68,14 @@ const Login = async (req, res) => {
 
         const AccessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
 
-        res.cookie('AccessToken', AccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Use secure only in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // None for cross-site cookies, Lax for local testing
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        });
-        
-        
+
+        res.cookie("AccessToken", AccessToken, {
+            httpOnly: true, 
+            secure: true,
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000, 
+          });
+          
         res.status(200).json({
             message: "Login successfully",
             user: {

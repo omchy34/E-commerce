@@ -27,7 +27,7 @@ const Banner = () => {
   useEffect(() => {
     async function fetchBanners() {
       try {
-        const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllBanner");
+        const res = await axios.get("http://localhost:5673/api/v1/admin/GetAllBanner");
         if (res.data && res.data.allBanners) {
           setBanners(res.data.allBanners);
         } else {

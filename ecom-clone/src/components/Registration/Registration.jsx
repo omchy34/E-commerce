@@ -25,7 +25,7 @@ const RegistrationForm = () => {
     }
 
     try {
-      const res = await axios.post('https://e-commerceserver-uu0f.onrender.com/api/v1/users/Register', formData, {
+      const res = await axios.post('http://localhost:5673/api/v1/users/Register', formData, {
         withCredentials: true,
       });
 
@@ -126,9 +126,9 @@ const RegistrationForm = () => {
         {/* Already have an account */}
         <p className="text-center text-sm text-gray-600 mt-3">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-500 hover:underline">
+          <a href="/login" className="text-blue-500 hover:underline">
             Log in
-          </Link>
+          </a>
         </p>
       </div>
     </div>

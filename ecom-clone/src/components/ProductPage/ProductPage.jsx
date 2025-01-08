@@ -22,7 +22,7 @@ const ProductDetail = () => {
   useEffect(() => {
     async function fetchProductDetail() {
       try {
-        const res = await axios.get(`https://e-commerceserver-uu0f.onrender.com/api/v1/admin/ProductDetails/${id}`);
+        const res = await axios.get(`http://localhost:5673/api/v1/admin/ProductDetails/${id}`);
         console.log(res);
         
         setProduct(res.data.product); 
