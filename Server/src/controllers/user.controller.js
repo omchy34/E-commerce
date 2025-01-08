@@ -28,7 +28,7 @@ const Registration = async (req, res) => {
         res.cookie("AccessToken", AccessToken, {
             httpOnly: true, 
             secure: true,
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000, 
           });
         res.status(201).json({
@@ -72,7 +72,7 @@ const Login = async (req, res) => {
         res.cookie("AccessToken", AccessToken, {
             httpOnly: true, 
             secure: true,
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000, 
           });
           
