@@ -25,7 +25,7 @@ const Registration = async (req, res) => {
             secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
             maxAge: 7,
             sameSite: 'None', // Important for cross-site requests
-            domain: 'https://e-commerce-nfwv.onrender.com', // Ensure the cookie works across subdomains (if needed)
+            domain: '.render.com', // Ensure the cookie works across subdomains (if needed)
           });
         res.status(201).json({
             message: "User registered successfully.",
@@ -70,7 +70,7 @@ const Login = async (req, res) => {
             secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
             maxAge: 7,
             sameSite: 'None', // Important for cross-site requests
-            domain: 'https://e-commerce-nfwv.onrender.com', // Ensure the cookie works across subdomains (if needed)
+            domain: '.render.com', // Ensure the cookie works across subdomains (if needed)
           });
           
         res.status(200).json({
