@@ -37,7 +37,7 @@ const LoginForm = () => {
       });
       setLoading(false);
 console.log(res.data);
-Cookies.set("AccessToken" , res.data.user.AccessToken)
+
       if (res.data) {
       navigate("/Profile");
       toast.success("Login successful!");

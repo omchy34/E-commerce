@@ -22,7 +22,8 @@ const Registration = async (req, res) => {
 
         res.cookie("AccessToken", AccessToken, {
             httpOnly: true, 
-            secure: true,
+            secure: process.env.NODE_ENV === 'production', // Only true in production
+
             sameSite: "none",
             maxAge: 24 * 60 * 60 * 1000, 
           });
@@ -66,7 +67,8 @@ const Login = async (req, res) => {
 
         res.cookie("AccessToken", AccessToken, {
             httpOnly: true, 
-            secure: true,
+            secure: process.env.NODE_ENV === 'production', // Only true in production
+
             sameSite: "none",
             maxAge: 24 * 60 * 60 * 1000, 
           });
