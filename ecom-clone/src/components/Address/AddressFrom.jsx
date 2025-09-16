@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance.js';
 
 const AddressForm = () => {
     const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const AddressForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/users/Addaddress",formData , {
+            const res = await axiosInstance.post(`/api/v1/users/Addaddress`,formData , {
                 withCredentials : true
             })
             if (res) {

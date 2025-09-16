@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
 
 const AddressMain = () => {
   const [addresses, setAddresses] = useState([]);
@@ -12,7 +13,7 @@ const AddressMain = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/users/FetchAddress", { withCredentials: true });
+        const res = await axiosInstance.get(`/api/v1/users/FetchAddress`, { withCredentials: true });
         setAddresses(res.data.data || []);
       } catch (error) {
         setError("Failed to fetch addresses. Please try again later.");
@@ -29,7 +30,7 @@ const AddressMain = () => {
     if (!window.confirm("Are you sure you want to delete this address?")) return;
 
     try {
-      await axios.delete(`https://e-commerceserver-uu0f.onrender.com/api/v1/users/DeleteAddress/${id}`, { withCredentials: true });
+      await axios.delete(`${axiosInstance}/api/v1/users/DeleteAddress/${id}`, { withCredentials: true });
       setAddresses((prevAddresses) => prevAddresses.filter((address) => address._id !== id));
     } catch (error) {
       console.error("Error deleting address:", error);

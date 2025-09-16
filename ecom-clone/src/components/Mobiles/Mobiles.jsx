@@ -5,7 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Addtocart } from "../../features/AddToCart/AddToCart.js";
 import { Addtowishlist, Removefromwishlist } from "../../features/WishList/WishList.js";
-
+import axiosInstance from "../../utils/axiosInstance.js";
 
 const ProductMobile = () => {
   const { categoryId } = useParams();
@@ -19,7 +19,7 @@ const ProductMobile = () => {
     const fetchProducts = async () => {
       try {
 
-        const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchProduct");
+        const response = await axiosInstance.get(`/api/v1/admin/FetchProduct`);
         const data = response.data.allProducts.filter((i) => i.SpecialCategory === "Mobile")
         setProductsData(data)
 

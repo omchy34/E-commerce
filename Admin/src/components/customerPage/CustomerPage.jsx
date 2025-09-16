@@ -9,7 +9,7 @@ const CustomerPage = () => {
 
   useEffect(() => {
     async function FetchUser() {
-      const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/users/AllUsers")
+      const response = await axios.get("http://localhost:5673/api/v1/users/AllUsers")
       setCustomers(response.data.users);
     }
     FetchUser()
@@ -17,7 +17,7 @@ const CustomerPage = () => {
 
   // Function to handle customer deletion
   const handleDeleteCustomer = async(id) => {
-    const res = await axios.delete(`https://e-commerceserver-uu0f.onrender.com/api/v1/users/DeleteUser/${id}`)
+    const res = await axios.delete(`http://localhost:5673/api/v1/users/DeleteUser/${id}`)
     console.log(res);
     if(res.data){
 

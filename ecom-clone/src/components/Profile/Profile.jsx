@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { FaUser, FaBoxOpen, FaHeart, FaMapMarkerAlt, FaCog, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-
+import axiosInstance from '../../utils/axiosInstance.js';
 const Profile = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
 
-const AccessToken = Cookies.get('AccessToken'); 
+
 
   useEffect(() => {
-    if (AccessToken) {
+   
       async function userData() {
         try {
-          const res = await axios.get('https://e-commerceserver-uu0f.onrender.com/api/v1/users/userData', {
+          const res = await axiosInstance.get(`/api/v1/users/userData`, {
             withCredentials: true,
           });
           console.log(res);
@@ -26,8 +24,8 @@ const AccessToken = Cookies.get('AccessToken');
       }
 
       userData();
-    }
-  }, [AccessToken]);  
+  
+  }, []);  
 
   return (
     <div className="bg-gray-100 min-h-screen py-8 pt-24">

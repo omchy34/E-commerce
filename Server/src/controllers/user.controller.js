@@ -21,12 +21,13 @@ const Registration = async (req, res) => {
         await newUser.save();
 
         res.cookie('AccessToken', AccessToken, {
-            httpOnly: true, // Prevent access via JavaScript
-            secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
-            maxAge: 7,
-            sameSite: 'None', // Important for cross-site requests
-            domain: '.render.com', // Ensure the cookie works across subdomains (if needed)
-          });
+            httpOnly: true, // Prevents JavaScript access
+            secure: process.env.NODE_ENV === 'production', // Only secure in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Adjust for local testing
+            maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+            path: '/',
+        });
+
         res.status(201).json({
             message: "User registered successfully.",
             user: {
@@ -66,13 +67,14 @@ const Login = async (req, res) => {
 
 
         res.cookie('AccessToken', AccessToken, {
-            httpOnly: true, // Prevent access via JavaScript
-            secure: process.env.NODE_ENV === 'production', // Only secure cookies in production
-            maxAge: 7,
-            sameSite: 'None', // Important for cross-site requests
-            domain: '.render.com', // Ensure the cookie works across subdomains (if needed)
-          });
-          
+            httpOnly: true, // Prevents JavaScript access
+            secure: false, // Only secure in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Adjust for local testing
+            maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+            path: '/',
+        });
+
+
         res.status(200).json({
             message: "Login successfully",
             user: {
@@ -119,13 +121,30 @@ const DeleteUser = async (req, res) => {
         const { id } = req.params;
 
         const DeleteUser = await User.findByIdAndDelete(id);
-        res.status(200).json({ message: "user deleted successfully" , data:DeleteUser})
+        res.status(200).json({ message: "user deleted successfully", data: DeleteUser })
 
     } catch (error) {
         res.status(500).json({ message: "BACKEND ERROR", error })
     }
 }
 
-export { Registration, Login, userData, AllUsers, DeleteUser };
+const validate = async (req, res) => {
+
+    const token = req.cookies.AccessToken;
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    try {
+        const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        res.status(200).json({ authenticated: true, user });
+    } catch (error) {
+        res.status(401).json({ message: 'Invalid token' });
+    }
+
+}
+
+export { Registration, Login, userData, AllUsers, DeleteUser , validate};
 
 

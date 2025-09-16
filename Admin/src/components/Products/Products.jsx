@@ -7,7 +7,7 @@ const Products = () => {
 
   useEffect(() => {
     async function FetchProduct() {
-      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchProduct") ;
+      const res = await axios.get("http://localhost:5673/api/v1/admin/FetchProduct") ;
       console.log(res);
       setproducts(res.data.allProducts) ;
     }
@@ -62,7 +62,7 @@ const Products = () => {
                 <img src={product.Images[0]} alt={product.ProductName} className="w-16 h-16 object-cover" />
               </td>
               <td className="py-2 px-4">{product.ProductName}</td>
-              <td className="py-2 px-4">{product.Category}</td> {/* Category column */}
+              <td className="py-2 px-4">{product.Category}</td> 
               <td className="py-2 px-4">{product.Price}</td>
               <td className="py-2 px-4">
                 {product.Stock}

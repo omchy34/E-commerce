@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle, AiOutlineExclamationCircle } from 'react-icons/ai'; // Status icons
-
+import axiosInstance from '../../utils/axiosInstance.js';
 const Orders = () => {
   const [ordersData, setOrderData] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
@@ -9,7 +9,7 @@ const Orders = () => {
   useEffect(() => {
     async function FtechOrder() {
       try {
-        const res = await axios.get('https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchOrder');
+        const res = await axiosInstance.get(`/api/v1/admin/FetchOrder`);
         console.log(res);
         setOrderData(res.data.orders);
       } catch (error) {

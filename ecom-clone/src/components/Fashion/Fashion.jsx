@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Addtocart } from "../../features/AddToCart/AddToCart.js";
 import { Addtowishlist, Removefromwishlist } from "../../features/WishList/WishList.js";
+import axiosInstance from "../../utils/axiosInstance.js";
 
 const ProductFashion = () => {
     const { categoryId } = useParams();
@@ -17,7 +18,7 @@ const ProductFashion = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/FetchProduct");
+                const response = await axiosInstance.get(`/api/v1/admin/FetchProduct`);
                 const data = response.data.allProducts.filter(
                     (i) => i.SpecialCategory === "Fashion"
                 );
@@ -44,7 +45,7 @@ const ProductFashion = () => {
         Brand: product.Brand,
         Images: product.Images[0],
       };
-      const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/users/add-to-cart" , cartItem,{
+      const res = await axiosInstance.post(`/api/v1/users/add-to-cart` , cartItem,{
         withCredentials: true,
       }) ;
       console.log(res);

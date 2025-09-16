@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance.js";
 
 const Categories = () => {
   const [categories, setCategory] = useState([]);
@@ -8,7 +9,7 @@ const Categories = () => {
 
   useEffect(() => {
     async function FetchSepCat() {
-      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllSpecialCategory");
+      const res = await axiosInstance.get(`/api/v1/admin/GetAllSpecialCategory`);
       setCategory(res.data.allSepicalCategory);
     }
     FetchSepCat();

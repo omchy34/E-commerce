@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance.js";
 
 
 const Banner = () => {
@@ -27,7 +28,9 @@ const Banner = () => {
   useEffect(() => {
     async function fetchBanners() {
       try {
-        const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllBanner");
+        const res = await axiosInstance.get('/api/v1/admin/GetAllBanner');
+        console.log(res);
+        
         if (res.data && res.data.allBanners) {
           setBanners(res.data.allBanners);
         } else {

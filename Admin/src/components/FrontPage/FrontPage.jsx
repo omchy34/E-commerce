@@ -17,7 +17,7 @@ const FrontPage = () => {
       formData.append("name", BannerText);
       formData.append("images", BannerImage); 
 
-      const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/addBanner", formData, {
+      const res = await axios.post("http://localhost:5673/api/v1/admin/addBanner", formData, {
         headers: {
           "Content-Type": "multipart/form-data", 
         },
@@ -34,7 +34,7 @@ const FrontPage = () => {
       formData.append("name", CategoryText);
       formData.append("images", CategoryImage); 
 
-      const res = await axios.post("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/addSepicalCategory", formData, {
+      const res = await axios.post("http://localhost:5673/api/v1/admin/addSepicalCategory", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -47,7 +47,7 @@ const FrontPage = () => {
 
   useEffect(() => {
     async function FetchSep() {
-      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllSepicalCategory");
+      const res = await axios.get("http://localhost:5673/api/v1/admin/GetAllSepicalCategory");
       console.log(res);
       if (res) {
         setExistingCategory(res.data.allSepicalCategory)
@@ -55,7 +55,7 @@ const FrontPage = () => {
     }
 
     async function FetchCat() {
-      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllBanner");
+      const res = await axios.get("http://localhost:5673/api/v1/admin/GetAllBanner");
       console.log(res);
       if (res) {
         setExistingBanner(res.data.allBanners)

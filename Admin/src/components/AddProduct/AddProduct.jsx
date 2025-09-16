@@ -26,7 +26,7 @@ const AddProduct = () => {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllCategory");
+        const res = await axios.get("http://localhost:5673/api/v1/admin/GetAllCategory");
         setCategories(res.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -35,7 +35,7 @@ const AddProduct = () => {
 
     async function fetchBestDeals() {
       try {
-        const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/getBestDeals");
+        const res = await axios.get("http://localhost:5673/api/v1/admin/getBestDeals");
         setBestDealsOptions(res.data);
       } catch (error) {
         console.error('Error fetching best deals:', error);
@@ -43,7 +43,7 @@ const AddProduct = () => {
     }
 
     async function FetchSep() {
-      const res = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/GetAllSpecialCategory");
+      const res = await axios.get("http://localhost:5673/api/v1/admin/GetAllSpecialCategory");
       console.log(res);
       if (res) {
         setSpecialCategory(res.data.allSepicalCategory)
@@ -104,7 +104,7 @@ const AddProduct = () => {
     console.log("Product Data:", productData);
 
     try {
-      const res = await axios.post('https://e-commerceserver-uu0f.onrender.com/api/v1/admin/add-product', formData, {
+      const res = await axios.post('http://localhost:5673/api/v1/admin/add-product', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

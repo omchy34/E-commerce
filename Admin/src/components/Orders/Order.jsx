@@ -15,7 +15,7 @@ const Order = () => {
 
   useEffect(() => {
     async function getOrder() {
-      const response = await axios.get("https://e-commerceserver-uu0f.onrender.com/api/v1/admin/fetchAllOrders");
+      const response = await axios.get("http://localhost:5673/api/v1/admin/fetchAllOrders");
       setOrders(response.data.orders);
       console.log(response);
     }

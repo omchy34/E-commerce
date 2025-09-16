@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
-
+import axiosInstance from "../../utils/axiosInstance.js";
 const Search = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]); 
@@ -21,7 +21,7 @@ const Search = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://e-commerceserver-uu0f.onrender.com/api/v1/admin/search-product/${encodeURIComponent(searchValue)}`
+        `${axiosInstance}/api/v1/admin/search-product/${encodeURIComponent(searchValue)}`
       );
       console.log("API Response:", response.data); 
       setSuggestions(response.data.suggestions || []);

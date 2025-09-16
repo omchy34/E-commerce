@@ -83,6 +83,9 @@ const banner = async (req, res) => {
 const GetAllBanner = async (req, res) => {
   try {
     const allBanners = await Banner.find({});
+    if(!allBanners){
+      res.status(400).json({message:"Banner Not Found"})
+    }
     res.status(200).json({ message: "All banners fetched", allBanners });
   } catch (error) {
     res.status(500).json({ message: "Backend error", error: error.message });

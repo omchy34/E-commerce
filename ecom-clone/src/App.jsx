@@ -10,7 +10,7 @@ import EditProfile from './components/EditProfile/EditProfile';
 import Wishlist from './components/WishList/WishList';
 import ProductList from "./components/productList/ProductList";
 import Orders from './components/Order/Orders';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 import ProductFashion from './components/Fashion/Fashion';
 import ProductMobile from './components/Mobiles/Mobiles'
 import AddressForm from './components/Address/AddressFrom.jsx'
