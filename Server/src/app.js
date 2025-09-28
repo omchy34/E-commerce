@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     origin: [process.env.FRONTEND_CORS_ORIGIN, process.env.ADMIN_CORS_ORIGIN],
     methods: ["POST", "GET", "DELETE", "PATCH", "HEAD", "PUT"],
-    credentials: true ,
 }));
 
 // import routes  
@@ -37,5 +36,6 @@ app.use("/api/v1/admin" , CategoryRouter) ;
 app.use("/api/v1/admin" , BestDealsRouter) ;
 app.use("/api/v1/admin" , FrontPageRouter) ;
 app.use("/api/v1/admin" , OrderRouter) ;
+
 
 export { app } ;
