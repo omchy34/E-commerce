@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     origin: [process.env.FRONTEND_CORS_ORIGIN, process.env.ADMIN_CORS_ORIGIN],
     methods: ["POST", "GET", "DELETE", "PATCH", "HEAD", "PUT"],
+    credential:true
 }));
 
 // import routes  
