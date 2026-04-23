@@ -12,10 +12,24 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const allowedOrigins = [
+  "https://e-commerce-nfwv.onrender.com",
+  "https://e-commerceadmin-j6xe.onrender.com"
+];
+
 app.use(cors({
-    origin: [process.env.FRONTEND_CORS_ORIGIN, process.env.ADMIN_CORS_ORIGIN],
+    origin: function (origin, callback) {
+        // allow requests with no origin (like Postman)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        } else {
+            return callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ["POST", "GET", "DELETE", "PATCH", "HEAD", "PUT"],
-    credential:true
+    credentials: true,
 }));
 
 // import routes  
