@@ -15,16 +15,16 @@ const Registration = async (req, res) => {
             return res.status(400).json({ message: "User already exists." });
         }
 
-        const newUser = await User.create({ FullName, Email, Phone, Password }); // No need to hash manually
+        const newUser = await User.create({ FullName, Email, Phone, Password }); 
         const AccessToken = jwt.sign({ id: newUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
         newUser.AccessToken = AccessToken;
         await newUser.save();
 
         res.cookie('AccessToken', AccessToken, {
-            httpOnly: true, // Prevents JavaScript access
-            secure: process.env.NODE_ENV === 'production', // Only secure in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Adjust for local testing
-            maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            maxAge: 24 * 60 * 60 * 1000,
             path: '/',
         });
 
@@ -68,9 +68,9 @@ const Login = async (req, res) => {
 
         res.cookie('AccessToken', AccessToken, {
             httpOnly: true, // Prevents JavaScript access
-            secure: false, // Only secure in production
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Adjust for local testing
-            maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+            secure: process.env.NODE_ENV === 'production', 
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', 
+            maxAge: 24 * 60 * 60 * 1000,
             path: '/',
         });
 
